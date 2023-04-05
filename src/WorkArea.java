@@ -1,14 +1,15 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+@SuppressWarnings("serial")
 public class WorkArea extends JPanel{
-	private static final long serialVersionUID = 2L;
-	
+
 	public JTextArea textArea;
 	public JTextArea lineNumbers;
 	
@@ -20,6 +21,8 @@ public class WorkArea extends JPanel{
 		textArea.setFont(ProjectConstants.GENERAL_FONT);
 		textArea.setTabSize(2);
 		textArea.setBackground(ProjectConstants.WORK_AREA_COLOR);
+		textArea.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 0, ProjectConstants.WORK_AREA_COLOR));
+		
 		
 		textArea.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -38,14 +41,15 @@ public class WorkArea extends JPanel{
 		});
 		
 		//line numbering
-		lineNumbers = new JTextArea(" 1\n 2");
+		lineNumbers = new JTextArea("1\n2");
 		lineNumbers.setSize(new Dimension(25, lineNumbers.getPreferredSize().getSize().height));
 		lineNumbers.setMaximumSize(new Dimension(60, lineNumbers.getPreferredSize().getSize().height));
 		lineNumbers.setFocusable(false);
 		lineNumbers.setFont(ProjectConstants.GENERAL_FONT);
 		lineNumbers.setEditable(false);
 		lineNumbers.setBackground(ProjectConstants.LINE_NUMBER_COLOR);
-		
+		lineNumbers.setBorder(BorderFactory.createMatteBorder(0, 9, 0, 4, ProjectConstants.LINE_NUMBER_COLOR));
+
 		add(lineNumbers, BorderLayout.WEST);
 		add(textArea, BorderLayout.CENTER);
 	}
@@ -55,7 +59,7 @@ public class WorkArea extends JPanel{
 		int numberOfLines = textArea.getLineCount() + 1;
 		
 		for (int i = 1; i <= numberOfLines; i++)
-			numbers += " " + i + "\n";
+			numbers += i + "\n";
 		
 		lineNumbers.setText(numbers);
 	}

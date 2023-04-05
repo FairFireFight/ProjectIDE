@@ -1,5 +1,6 @@
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -9,8 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class SplitPaneApp extends JFrame {
-	private static final long serialVersionUID = 1L;
 	
 	//UI elements
 	public JSplitPane horizontalSplit;
@@ -23,15 +24,20 @@ public class SplitPaneApp extends JFrame {
 	public JScrollPane textFieldScroll;
 	public JTextArea textArea;
 	public JLabel lineNumbers;
+	
+	//containers
 	public JPanel workAreaPanel;
+	public JPanel appPanel;
 	
 	public SplitPaneApp() {
 		super("Arab[B]eans IDE");
 		InitializeFrame();	
 		
+		appPanel = new JPanel(new BorderLayout());
+		
 		//setting up hierarchy
 		hierarchy = new JPanel();
-		hierarchy.setBackground(new Color(220, 220, 220));
+		hierarchy.setBackground(ProjectConstants.CONSOLE_COLOR);
 		
 		//setting up workArea		
 		workArea = new JScrollPane(new WorkArea());
@@ -47,7 +53,11 @@ public class SplitPaneApp extends JFrame {
 		InitializeVerticalSplit(workArea, console);
 		InitializeHorizontalSplit(hierarchy, verticalSplit);
 		
-		this.add(horizontalSplit);
+		appPanel.add(new ToolBar(), BorderLayout.NORTH);
+		appPanel.add(horizontalSplit, BorderLayout.CENTER);
+		
+		this.add(appPanel);
+		this.setJMenuBar(new ControlsMenuBar());
 	}
 	
 	private void InitializeFrame() {
@@ -57,7 +67,9 @@ public class SplitPaneApp extends JFrame {
 		//System.out.println("Resolution [" + screenWidth + ", " + screenHeight + "]");
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setSize(screenWidth - 100, screenHeight - 100);
+		this.setMinimumSize(new Dimension(900, 650));
 		this.setLocationRelativeTo(null);
 	}
 	
@@ -66,8 +78,9 @@ public class SplitPaneApp extends JFrame {
 		verticalSplit.setTopComponent(topComponent);
 		verticalSplit.setBottomComponent(bottomComponent);
 		verticalSplit.setContinuousLayout(true);
+		verticalSplit.setResizeWeight(0.5);
 		
-		int verticalSplitLocation = 200;
+		int verticalSplitLocation = 250;
 		verticalSplit.setDividerLocation(this.getHeight() - verticalSplitLocation);
 	}
 	
@@ -78,7 +91,7 @@ public class SplitPaneApp extends JFrame {
 		horizontalSplit.setResizeWeight(0.5);
 		horizontalSplit.setContinuousLayout(true);
 		
-		int horizontalSplitLocation = 225;
+		int horizontalSplitLocation = 270;
 		horizontalSplit.setDividerLocation(horizontalSplitLocation);
 	}
 }
