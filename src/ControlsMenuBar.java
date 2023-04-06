@@ -29,7 +29,7 @@ public class ControlsMenuBar extends JMenuBar {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	//TODO replace example code with actual functioning one
+            	//TODO replace example code with properly functioning one
                 String desktopPath = System.getProperty("user.home") + "/Desktop/";
                 String fileName = "textfile.txt";
 

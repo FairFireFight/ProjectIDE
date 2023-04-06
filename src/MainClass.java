@@ -1,6 +1,13 @@
+import javax.swing.UIManager;
+
 public class MainClass {
 	public static void main(String[] args) {
-		SplitPaneApp splitPaneApp = new SplitPaneApp();
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception weTried) { }
+		
+		SplitPaneApp splitPaneApp = new SplitPaneApp();	
+		
 		splitPaneApp.setVisible(true);
 	}
 }
