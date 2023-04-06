@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -22,6 +21,7 @@ public class WorkArea extends JPanel{
 		textArea.setTabSize(2);
 		textArea.setBackground(ProjectConstants.WORK_AREA_COLOR);
 		textArea.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 0, ProjectConstants.WORK_AREA_COLOR));
+		
 		
 		
 		textArea.getDocument().addDocumentListener(new DocumentListener() {
@@ -52,6 +52,10 @@ public class WorkArea extends JPanel{
 
 		add(lineNumbers, BorderLayout.WEST);
 		add(textArea, BorderLayout.CENTER);
+	}
+	
+	public String getText() {
+		return textArea.getText();
 	}
 	
 	private void UpdateLineNumbers() {

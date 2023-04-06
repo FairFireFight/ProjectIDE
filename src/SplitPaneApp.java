@@ -4,11 +4,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class SplitPaneApp extends JFrame {
@@ -21,13 +19,12 @@ public class SplitPaneApp extends JFrame {
 	public JPanel hierarchy ;
 	public JPanel console;
 	
-	public JScrollPane textFieldScroll;
-	public JTextArea textArea;
-	public JLabel lineNumbers;
-	
 	//containers
 	public JPanel workAreaPanel;
 	public JPanel appPanel;
+	
+	//user extended elements
+	public static WorkArea workAreaCustomPanel;
 	
 	public SplitPaneApp() {
 		super("Arab[B]eans IDE");
@@ -40,7 +37,8 @@ public class SplitPaneApp extends JFrame {
 		hierarchy.setBackground(ProjectConstants.CONSOLE_COLOR);
 		
 		//setting up workArea		
-		workArea = new JScrollPane(new WorkArea());
+		workAreaCustomPanel = new WorkArea();
+		workArea = new JScrollPane(workAreaCustomPanel);
 		workArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		workArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		workArea.getVerticalScrollBar().setUnitIncrement(12);
