@@ -21,6 +21,5 @@ public class ToolBar extends JPanel{
 			buttons[i].setFocusable(false);
 			this.add(buttons[i]);
 		}
-		//END TESTING
 	}
 }

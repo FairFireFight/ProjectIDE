@@ -6,5 +6,6 @@ public final class ProjectConstants {
 	public final static Color CONSOLE_COLOR = new Color(210, 215, 215);
 	public final static Color LINE_NUMBER_COLOR = new Color(205, 210, 210);
 	
-	public static Font GENERAL_FONT = new Font("Arial", Font.PLAIN, 20);
+	public static Font TEXT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
+	public final static Font GENERAL_FONT = new Font("Arial", Font.PLAIN, 14);
 }

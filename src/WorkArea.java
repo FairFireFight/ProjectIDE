@@ -18,7 +18,7 @@ public class WorkArea extends JPanel{
 		
 		//Actual TextArea
 		textArea = new JTextArea();
-		textArea.setFont(ProjectConstants.GENERAL_FONT);
+		textArea.setFont(ProjectConstants.TEXT_AREA_FONT);
 		textArea.setTabSize(2);
 		textArea.setBackground(ProjectConstants.WORK_AREA_COLOR);
 		textArea.setBorder(BorderFactory.createMatteBorder(3, 5, 0, 0, ProjectConstants.WORK_AREA_COLOR));
@@ -45,7 +45,7 @@ public class WorkArea extends JPanel{
 		lineNumbers.setSize(new Dimension(25, lineNumbers.getPreferredSize().getSize().height));
 		lineNumbers.setMaximumSize(new Dimension(60, lineNumbers.getPreferredSize().getSize().height));
 		lineNumbers.setFocusable(false);
-		lineNumbers.setFont(ProjectConstants.GENERAL_FONT);
+		lineNumbers.setFont(ProjectConstants.TEXT_AREA_FONT);
 		lineNumbers.setEditable(false);
 		lineNumbers.setBackground(ProjectConstants.LINE_NUMBER_COLOR);
 		lineNumbers.setBorder(BorderFactory.createMatteBorder(3, 9, 0, 4, ProjectConstants.LINE_NUMBER_COLOR));	
