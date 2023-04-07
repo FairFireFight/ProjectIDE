@@ -36,7 +36,7 @@ public class SplitPaneApp extends JFrame {
 		hierarchy = new JPanel(new BorderLayout());
 		hierarchy.setBackground(ProjectConstants.CONSOLE_COLOR);
 		
-		hierarchy.add(new HeirarchyMainPanel(), BorderLayout.CENTER);
+		hierarchy.add(new HeirarchyExplorer(), BorderLayout.CENTER);
 		//setting up workArea		
 		workAreaCustomPanel = new WorkArea();
 		workArea = new JScrollPane(workAreaCustomPanel);

@@ -17,12 +17,12 @@ public class ControlsMenuBar extends JMenuBar {
 	JMenuItem saveButton;
 	JMenuItem loadButton;
 	
-	JMenu newButton;
+	//file menu -> new menu
+	JMenu newMenu;
 	JMenuItem newProject;
 	JMenuItem newClass;
 	JMenuItem newFolder;
 
-	
 	JMenuItem exitButton;
 	
 	public ControlsMenuBar() {
@@ -56,32 +56,34 @@ public class ControlsMenuBar extends JMenuBar {
             }
         });	
 		
-		loadButton.addActionListener(new loadProjectHandler());
+		loadButton.addActionListener(new LoadProjectHandler());
 		//exit handler
 		exitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit", 
-						JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION) 
+						== JOptionPane.OK_OPTION) {
 					System.exit(0);
 				}
 			}
 		});
 		
-		newButton = new JMenu("New");
+		newMenu = new JMenu("New");	
 		newProject = new JMenuItem("Java Project");
 		newClass = new JMenuItem("Java Class");
 		newFolder = new JMenuItem("Folder");
 		
-		newButton.add(newProject);
-		newButton.addSeparator();
-		newButton.add(newClass);
-		newButton.add(newFolder);
+		//new menu additions
+		newMenu.add(newProject);
+		newMenu.addSeparator();
+		newMenu.add(newClass);
+		newMenu.add(newFolder);
 		
+		//file additions
 		fileMenu.add(saveButton);
 		fileMenu.add(loadButton);
 		fileMenu.addSeparator();
-		fileMenu.add(newButton);
+		fileMenu.add(newMenu);
 		fileMenu.addSeparator();
 		fileMenu.add(exitButton);
 		
