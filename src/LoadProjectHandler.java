@@ -16,19 +16,25 @@ public class LoadProjectHandler implements ActionListener {
 		int returnVal = fileChooser.showOpenDialog(null);
 		
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			HeirarchyExplorer.openDirectory = fileChooser.getSelectedFile();
-			loadProjectTree(HeirarchyExplorer.openDirectory);
+			ConfigurationManager.openDirectory = fileChooser.getSelectedFile();
+			loadProjectTree(ConfigurationManager.openDirectory);
+			ConfigurationManager.updateSavedOpenDirectory();
 		}
 	}
 	
 	public static void loadProjectTree(File file) {
+			if (file == null) {
+				loadProjectTree(new File(ConfigurationManager.documentsFolderPath));
+				return;
+			}
+		
 			DefaultMutableTreeNode root;
 			root = new DefaultMutableTreeNode(file.getName());
 			
 			buildFileStructureTree(root, file);
 			HeirarchyExplorer.treeModel.setRoot(root);
 			
-			MainClass.updateTitle(file + "- Arab[B]eans IDE");
+			MainClass.updateTitle(file + " - Arab[B]eans IDE");
 	}
 	
 	/**
@@ -40,7 +46,12 @@ public class LoadProjectHandler implements ActionListener {
 	 * */
 	private static void buildFileStructureTree(DefaultMutableTreeNode parentNode, File directory) {
 		File[] contents = directory.listFiles();
-
+		
+		if (contents == null) {
+			System.err.println("failed to open directory " + directory);
+			return;
+		}
+		
 		for (File file : contents) {
 			DefaultMutableTreeNode node; 
 			node = new DefaultMutableTreeNode(file.getName());
@@ -48,9 +59,16 @@ public class LoadProjectHandler implements ActionListener {
 			if (!file.isHidden()) {
 				parentNode.add(node);
 			}
+			
 			if (file.isDirectory()) {
 				buildFileStructureTree(node, file);
 			}
 		}
+	}
+	
+	//FIXME i might be bugged in the future
+	public static void rebuildTree() {
+		loadProjectTree(ConfigurationManager.openDirectory);
+		System.out.println("Rebuilt the tree");
 	}
 }

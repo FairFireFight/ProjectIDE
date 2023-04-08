@@ -13,17 +13,17 @@ import javax.swing.JOptionPane;
 @SuppressWarnings("serial")
 public class ControlsMenuBar extends JMenuBar {
 	//file menu
-	JMenu fileMenu;
-	JMenuItem saveButton;
-	JMenuItem loadButton;
+	public static JMenu fileMenu;
+	public static JMenuItem saveButton;
+	public static JMenuItem loadButton;
 	
 	//file menu -> new menu
-	JMenu newMenu;
-	JMenuItem newProject;
-	JMenuItem newClass;
-	JMenuItem newFolder;
+	public static JMenu newMenu;
+	public static JMenuItem newProject;
+	public static JMenuItem newClass;
+	public static JMenuItem newFolder;
 
-	JMenuItem exitButton;
+	public static JMenuItem exitButton;
 	
 	public ControlsMenuBar() {
 		super();
@@ -33,11 +33,10 @@ public class ControlsMenuBar extends JMenuBar {
 		loadButton = new JMenuItem("Load");
 		exitButton = new JMenuItem("Exit");
 		
-		//FIXME make an actual save handler class
+		//TODO make an actual save handler class
 		saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	//TODO replace example code with properly functioning one
                 String desktopPath = System.getProperty("user.home") + "/Desktop/";
                 String fileName = "textfile.txt";
 
@@ -68,10 +67,16 @@ public class ControlsMenuBar extends JMenuBar {
 			}
 		});
 		
-		newMenu = new JMenu("New");	
+		newMenu = new JMenu("New");
+		
 		newProject = new JMenuItem("Java Project");
+		newProject.addActionListener(new CreateNewHandler());
+		
 		newClass = new JMenuItem("Java Class");
+		newClass.addActionListener(new CreateNewHandler());
+		
 		newFolder = new JMenuItem("Folder");
+		newFolder.addActionListener(new CreateNewHandler());
 		
 		//new menu additions
 		newMenu.add(newProject);

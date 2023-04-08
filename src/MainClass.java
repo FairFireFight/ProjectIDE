@@ -10,8 +10,9 @@ public class MainClass {
 
 		splitPaneApp = new SplitPaneApp();	
 		splitPaneApp.setVisible(true);
+		new ConfigurationManager();
 
-		LoadProjectHandler.loadProjectTree(HeirarchyExplorer.openDirectory);
+		LoadProjectHandler.loadProjectTree(ConfigurationManager.openDirectory);
 	}
 
 	public static void updateTitle(String title) {
