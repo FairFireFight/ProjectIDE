@@ -46,8 +46,6 @@ public class HeirarchyExplorer extends JPanel {
 	public static JMenuItem removeButton;
 	
 	public static TreePath path;
-	// temporary to automatically open this directory
-	public static File openDirectory = new File("C:\\Users\\sulai\\Desktop\\FakeProject");
 
 	public HeirarchyExplorer() {
 		super(new BorderLayout());
@@ -66,10 +64,13 @@ public class HeirarchyExplorer extends JPanel {
 				if (fileTree.getPathForLocation(e.getX(), e.getY()) != null) {
 					path = fileTree.getPathForLocation(e.getX(), e.getY());
 				}
-				
+
 				// handle selection, make sure it is not null
 				if (e.getButton() == MouseEvent.BUTTON1 || e.getButton() == MouseEvent.BUTTON3) {
 					fileTree.setSelectionPath(path);
+					
+					if (path != null)
+						System.out.println("Selected path " + treePathToAbsoluteURI(path));
 				}
 
 				// drop down menu handler
@@ -120,6 +121,7 @@ public class HeirarchyExplorer extends JPanel {
 		});
 		
 		removeButton = new JMenuItem("Delete");
+		removeButton.addActionListener(new deleteHandler());
 		
 		refreshButton = new JMenuItem("Refresh");
 		refreshButton.addActionListener(new ActionListener() {
@@ -193,4 +195,16 @@ public class HeirarchyExplorer extends JPanel {
 		treeModel.nodeStructureChanged((TreeNode) nodeChanged);
 		fileTree.repaint();
 	}
+	
+	public static void removeSelectedNode() {
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) fileTree.getLastSelectedPathComponent();
+        if (selectedNode != null) {
+            DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) selectedNode.getParent();
+            if (parentNode != null) {
+                parentNode.remove(selectedNode);
+                fileTree.updateUI();
+                path = null;
+            }
+        }
+    }
 }

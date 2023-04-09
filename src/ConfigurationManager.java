@@ -31,7 +31,13 @@ public class ConfigurationManager {
 				displayLoadingDirectoryError();
 		}
 	}
-
+	
+	public static void loadDefaultFolder() {
+		openDirectory = new File(documentsFolderPath);
+		LoadProjectHandler.loadProjectTree(ConfigurationManager.openDirectory);
+		updateSavedOpenDirectory();
+	}
+	
 	public static void updateSavedOpenDirectory() {
 		List<String> data = new ArrayList<>();
 		data.add(openDirectory.toString());
@@ -61,7 +67,7 @@ public class ConfigurationManager {
 			List<String> readLines = Files.readAllLines(configFilePath);
 			
 			if (!readLines.isEmpty()) {
-				System.out.println(readLines.get(0));
+				//System.out.println(readLines.get(0));
 				return new File(readLines.get(0));
 			}
 		} catch (IOException e) {
