@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -41,6 +40,7 @@ public class HeirarchyExplorer extends JPanel {
 	public static JMenuItem newClassButton;
 	public static JMenuItem newFolder;
 	public static JMenuItem openInExplorer;
+	public static JMenuItem renameFile;
 	
 	public static JMenuItem refreshButton;
 	public static JMenuItem removeButton;
@@ -55,11 +55,12 @@ public class HeirarchyExplorer extends JPanel {
 		fileTree = new JTree(treeModel);
 		fileTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		fileTree.setShowsRootHandles(false);
-		fileTree.setEditable(getFocusTraversalKeysEnabled());
 		
 		// tree controls
 		fileTree.addMouseListener(new MouseAdapter() {
+			
 			// get reference to clicked node
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (fileTree.getPathForLocation(e.getX(), e.getY()) != null) {
 					path = fileTree.getPathForLocation(e.getX(), e.getY());
@@ -120,21 +121,26 @@ public class HeirarchyExplorer extends JPanel {
 			}
 		});
 		
+		CreateNewHandler newHandler = new CreateNewHandler();
+		
 		removeButton = new JMenuItem("Delete");
-		removeButton.addActionListener(new deleteHandler());
+		removeButton.addActionListener(new DeleteHandler());
+		
+		renameFile = new JMenuItem("Rename");
+		renameFile.addActionListener(newHandler);
 		
 		refreshButton = new JMenuItem("Refresh");
 		refreshButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoadProjectHandler.rebuildTree();
-			}	
+			}
 		});
 		
 		newClassButton = new JMenuItem("Java Class");
-		newClassButton.addActionListener(new CreateNewHandler());
+		newClassButton.addActionListener(newHandler);
 		
 		newFolder = new JMenuItem("Folder");
-		newFolder.addActionListener(new CreateNewHandler());
+		newFolder.addActionListener(newHandler);
 		
 		newMenu = new JMenu("New");
 		newMenu.add(newFolder);
@@ -146,6 +152,7 @@ public class HeirarchyExplorer extends JPanel {
 		dropDownMenu.add(openInExplorer);
 		dropDownMenu.add(refreshButton);
 		dropDownMenu.addSeparator();
+		dropDownMenu.add(renameFile);
 		dropDownMenu.add(removeButton);
 		
 		// adds
@@ -175,25 +182,12 @@ public class HeirarchyExplorer extends JPanel {
 		return newPath;
 	}
 	
-	@SuppressWarnings("unused")
-	public void collapseAllNodes(JTree tree) {
-		int rowCount = tree.getRowCount();
-		for (int i = rowCount - 1; i >= 1; i--) {
-			tree.collapseRow(i);
-		}
-	}
-	
 	public static String getSelectedNodeDirectory() {
 		if (path == null) {
 			return null;
 		} else {
 			return treePathToAbsoluteURI(path);
 		}
-	}
-	
-	public static void updateFileTree(TreeNode nodeChanged) {
-		treeModel.nodeStructureChanged((TreeNode) nodeChanged);
-		fileTree.repaint();
 	}
 	
 	public static void removeSelectedNode() {

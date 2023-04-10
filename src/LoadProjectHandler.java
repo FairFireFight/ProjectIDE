@@ -55,7 +55,7 @@ public class LoadProjectHandler implements ActionListener {
 		for (File file : contents) {
 			DefaultMutableTreeNode node; 
 			node = new DefaultMutableTreeNode(file.getName());
-			
+
 			if (!file.isHidden()) {
 				parentNode.add(node);
 			}
@@ -66,7 +66,7 @@ public class LoadProjectHandler implements ActionListener {
 		}
 	}
 	
-	//FIXME i might be bugged in the future
+	//FIXME might be bugged in the future
 	public static void rebuildTree() {
 		loadProjectTree(ConfigurationManager.openDirectory);
 		System.out.println("Rebuilt the tree");
