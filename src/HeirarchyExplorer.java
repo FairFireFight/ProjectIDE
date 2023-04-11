@@ -65,13 +65,14 @@ public class HeirarchyExplorer extends JPanel {
 				if (fileTree.getPathForLocation(e.getX(), e.getY()) != null) {
 					path = fileTree.getPathForLocation(e.getX(), e.getY());
 				}
-
+				
+				if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+					SplitPaneApp.workAreaTabs.openFile(new File(treePathToAbsoluteURI(path)));
+				}
+				
 				// handle selection, make sure it is not null
 				if (e.getButton() == MouseEvent.BUTTON1 || e.getButton() == MouseEvent.BUTTON3) {
 					fileTree.setSelectionPath(path);
-					
-					if (path != null)
-						System.out.println("Selected path " + treePathToAbsoluteURI(path));
 				}
 
 				// drop down menu handler

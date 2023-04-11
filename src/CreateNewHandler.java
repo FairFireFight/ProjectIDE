@@ -31,8 +31,7 @@ public class CreateNewHandler implements ActionListener{
 		}
 		
 		if (e.getSource() == HeirarchyExplorer.renameFile) {
-			String name = JOptionPane.showInputDialog(null, "Rename file to:", "Rename", JOptionPane.PLAIN_MESSAGE);
-			renameSelectedFile(name);
+			renameSelectedFile();
 		}
 	}
 	
@@ -50,16 +49,15 @@ public class CreateNewHandler implements ActionListener{
         return "\\" + availableName;
 	}
 	
-	public static void createNewJavaFile() {
+	public  static void createNewJavaFile() {
 		File selectedFile;
 		
 		// validation
 		if (HeirarchyExplorer.getSelectedNodeDirectory() == null) {
 			JOptionPane.showMessageDialog(null, "Please select a folder", "No Folder Selected", JOptionPane.ERROR_MESSAGE);
 		} else {
+			
 			// everything about creating new file starts here
-			
-			
 			selectedFile = new File(HeirarchyExplorer.getSelectedNodeDirectory());
 			DefaultMutableTreeNode lastComponent = (DefaultMutableTreeNode) HeirarchyExplorer.path.getLastPathComponent();
 			
@@ -79,17 +77,19 @@ public class CreateNewHandler implements ActionListener{
 				selectedFile = new File(selectedFile.toString() + "\\" + className +".java");
 			}
 			
-			System.out.println(selectedFile);
 			Path newFile = Paths.get(selectedFile.toString());
 			
 			// default text
 			List<String> defaultText = new ArrayList<>();
-			defaultText.add("\npublic class" + className + " {\n\n}\n");
+			defaultText.add("\npublic class " + className + " {\n\n}\n");
 			
 			try {
 				selectedFile.createNewFile();
 				
 				Files.write(newFile, defaultText, StandardCharsets.UTF_8);
+				System.out.println("Created new Java Class: " + selectedFile);
+				
+				SplitPaneApp.workAreaTabs.openFile(newFile.toFile());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} finally {
@@ -108,8 +108,7 @@ public class CreateNewHandler implements ActionListener{
 			JOptionPane.showMessageDialog(null, "Please select a folder", "No Folder Selected", JOptionPane.ERROR_MESSAGE);
 		} else {
 			// everything about creating new file starts here
-			
-			
+					
 			selectedFile = new File(HeirarchyExplorer.getSelectedNodeDirectory());
 			DefaultMutableTreeNode lastComponent = (DefaultMutableTreeNode) HeirarchyExplorer.path.getLastPathComponent();
 			
@@ -118,10 +117,10 @@ public class CreateNewHandler implements ActionListener{
 				selectedFile = new File(HeirarchyExplorer.getParentDirectory(HeirarchyExplorer.getSelectedNodeDirectory()));
 				lastComponent = (DefaultMutableTreeNode) lastComponent.getParent();
 			}
-			
-			//if the file already exists then find a new name for it
+					
 			String folderName = JOptionPane.showInputDialog(null, "Folder name: ", "Create new Folder", JOptionPane.PLAIN_MESSAGE);
 			
+			//if the file already exists then find a new name for it
 			if (new File(selectedFile.toString() + "\\" + folderName).exists()) {
 				selectedFile = new File(selectedFile.toString() + findFreeName(selectedFile, folderName, ""));
 			}
@@ -129,11 +128,11 @@ public class CreateNewHandler implements ActionListener{
 				selectedFile = new File(selectedFile.toString() + "\\" + folderName);
 			}
 			
-			System.out.println(selectedFile);
 			Path newFile = Paths.get(selectedFile.toString());
 		
 			try {
 				Files.createDirectory(newFile);
+				System.out.println("Created new folder: " + selectedFile);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} finally {
@@ -143,11 +142,18 @@ public class CreateNewHandler implements ActionListener{
 		}
 	}
 	
-	public static void renameSelectedFile(String newName) {
+	public static void renameSelectedFile() {
 		String selectedFileURI = HeirarchyExplorer.getSelectedNodeDirectory();
 		String selectedFileParentURI = HeirarchyExplorer.getParentDirectory(selectedFileURI);
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) HeirarchyExplorer.path.getLastPathComponent();
 		
+		// checking if it is the root folder
+		if (selectedFileURI.toString().equals(ConfigurationManager.getSavedDirectory().toString())) {
+				JOptionPane.showMessageDialog(null, "Renaming the project folder is not allowed", "Can't rename project folder", JOptionPane.ERROR_MESSAGE);
+				return;
+		}
+		
+		String newName = JOptionPane.showInputDialog(null, "Rename file to:", "Rename", JOptionPane.PLAIN_MESSAGE);
 		File selectedFile = new File(selectedFileURI);
 		String fileExtention;
 		if (selectedFile.isDirectory()) {
@@ -155,7 +161,6 @@ public class CreateNewHandler implements ActionListener{
 		} 
 		else {
 			fileExtention = selectedFileURI.substring(selectedFileURI.indexOf('.'));
-			System.out.println(fileExtention);
 		}
 		selectedFile.renameTo(new File(selectedFileParentURI + "\\" + newName + fileExtention));
 		

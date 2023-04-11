@@ -1,10 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -37,21 +32,7 @@ public class ControlsMenuBar extends JMenuBar {
 		saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String desktopPath = System.getProperty("user.home") + "/Desktop/";
-                String fileName = "textfile.txt";
-
-                try {
-                    File file = new File(desktopPath + fileName);
-                    FileWriter fw = new FileWriter(file);
-                    BufferedWriter bw = new BufferedWriter(fw);
-
-                    bw.write(SplitPaneApp.workAreaCustomPanel.getText());
-
-                    bw.close();
-                    fw.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                System.out.println("Save functionality has not been added yet");
             }
         });	
 		

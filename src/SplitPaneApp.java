@@ -20,11 +20,10 @@ public class SplitPaneApp extends JFrame {
 	public JPanel console;
 	
 	//containers
-	public JPanel workAreaPanel;
 	public JPanel appPanel;
 	
 	//user extended elements
-	public static WorkArea workAreaCustomPanel;
+	public static WorkAreaTabs workAreaTabs;
 	
 	public SplitPaneApp() {
 		super("Arab[B]eans IDE");
@@ -37,9 +36,10 @@ public class SplitPaneApp extends JFrame {
 		hierarchy.setBackground(ProjectConstants.CONSOLE_COLOR);
 		
 		hierarchy.add(new HeirarchyExplorer(), BorderLayout.CENTER);
+		
 		//setting up workArea		
-		workAreaCustomPanel = new WorkArea();
-		workArea = new JScrollPane(workAreaCustomPanel);
+		workAreaTabs = new WorkAreaTabs();
+		workArea = new JScrollPane(workAreaTabs);
 		workArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		workArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		workArea.getVerticalScrollBar().setUnitIncrement(12);
