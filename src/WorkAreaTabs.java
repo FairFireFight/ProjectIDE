@@ -19,22 +19,20 @@ public class WorkAreaTabs extends JTabbedPane{
 	
 	public void openFile(File file) {
 		
+		// ignore folders
 		if (file.isDirectory())
 			return;
 		
-		int openIndex = fileIsOpenInTab(file.toPath());
-		
 		// if tab is already open, switch to it
+		int openIndex = fileIsOpenInTab(file.toPath());		
 		if (openIndex != -1) {
 			this.setSelectedIndex(openIndex);
-		} 
-		else { // otherwise load file from disk
+		} else { // otherwise load file from disk
 			NumberedTextArea createdArea = new NumberedTextArea(file.getName());
 			createdArea.filePath = file.toPath();
 			this.addTab(file.getName(), createdArea);
 			openTabs.add(createdArea);
-			
-			
+	
 			// reading file
 			try {
 				List<String> readLines;
@@ -46,6 +44,7 @@ public class WorkAreaTabs extends JTabbedPane{
 				}
 			} catch (IOException e) {
 				System.err.println("An error occured trying to load " + file.getPath());
+				e.printStackTrace();
 			} finally {
 				this.setSelectedComponent(createdArea);
 			}

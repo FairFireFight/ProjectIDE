@@ -15,6 +15,7 @@ public class NumberedTextArea extends JPanel{
 	public JTextArea lineNumbers;
 	public String name;
 	public Path filePath;
+	public boolean unsavedChanges = false;
 	
 	public NumberedTextArea(String name) {
 		super(new BorderLayout());
@@ -33,11 +34,13 @@ public class NumberedTextArea extends JPanel{
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				UpdateLineNumbers();
+				unsavedChanges = true;
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				UpdateLineNumbers();
+				unsavedChanges = true;
 			}
 
 			@Override //unused method
