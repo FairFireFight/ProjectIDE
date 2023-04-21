@@ -1,13 +1,20 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * A complete JTextArea with line numbers, ScrollBars and remembers if the file was modified in a variable.
+ * @author Sulaiman
+ */
 @SuppressWarnings("serial")
 public class NumberedTextArea extends JPanel{
 
@@ -35,12 +42,14 @@ public class NumberedTextArea extends JPanel{
 			public void insertUpdate(DocumentEvent e) {
 				UpdateLineNumbers();
 				unsavedChanges = true;
+				SplitPaneApp.workAreaTabs.setUnsavedChangesMark(unsavedChanges);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				UpdateLineNumbers();
 				unsavedChanges = true;
+				SplitPaneApp.workAreaTabs.setUnsavedChangesMark(unsavedChanges);
 			}
 
 			@Override //unused method
@@ -59,6 +68,24 @@ public class NumberedTextArea extends JPanel{
 
 		add(lineNumbers, BorderLayout.WEST);
 		add(textArea, BorderLayout.CENTER);
+	}
+	
+	public void saveText() {
+		byte[] textBytes = getText().getBytes();
+		
+		try {
+			System.out.println("Saving file " + filePath);
+			
+			Files.write(filePath, textBytes);
+			
+			unsavedChanges = false;
+			SplitPaneApp.workAreaTabs.setUnsavedChangesMark(unsavedChanges);
+
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Failed to save file", "Save error", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Failed to save " + filePath);
+			e.printStackTrace();
+		}
 	}
 	
 	public String getText() {

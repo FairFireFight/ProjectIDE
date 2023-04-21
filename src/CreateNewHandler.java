@@ -99,7 +99,6 @@ public class CreateNewHandler implements ActionListener{
 		}
 	}
 	
-	// TODO just what the fuck is this
 	public static void createNewFolder() {
 		File selectedFile;
 		
@@ -142,6 +141,16 @@ public class CreateNewHandler implements ActionListener{
 		}
 	}
 	
+	
+	/**
+	 *  FIXME 
+	 *  1 - open a file in the editor
+	 *  2 - rename the file
+	 *  3 - save open file in editor
+	 *  4 - it will create a new file rather than writing to the new name
+	 *  
+	 *  fix this unintended behaviour
+	 */
 	public static void renameSelectedFile() {
 		String selectedFileURI = HeirarchyExplorer.getSelectedNodeDirectory();
 		String selectedFileParentURI = HeirarchyExplorer.getParentDirectory(selectedFileURI);
