@@ -98,7 +98,7 @@ public class CreateNewHandler implements ActionListener{
 			}
 		}
 	}
-	
+
 	public static void createNewFolder() {
 		File selectedFile;
 		
@@ -163,6 +163,10 @@ public class CreateNewHandler implements ActionListener{
 		}
 		
 		String newName = JOptionPane.showInputDialog(null, "Rename file to:", "Rename", JOptionPane.PLAIN_MESSAGE);
+		
+		if (newName == null)
+			return;
+		
 		File selectedFile = new File(selectedFileURI);
 		String fileExtention;
 		if (selectedFile.isDirectory()) {

@@ -71,7 +71,14 @@ public class NumberedTextArea extends JPanel{
 	}
 	
 	public void saveText() {
-		byte[] textBytes = getText().getBytes();
+		String text = getText();
+		byte[] textBytes = text.getBytes();
+		
+		//mark this if this file contans main() in ConfigurationManger.mainFunctionClass
+		if (text.contains("public static void main(String[]")) {
+			ConfigurationManager.mainFunctionClass = filePath;
+			System.out.println("Saved file contains main()");
+		}
 		
 		try {
 			System.out.println("Saving file " + filePath);
@@ -94,7 +101,7 @@ public class NumberedTextArea extends JPanel{
 	
 	private void UpdateLineNumbers() {
 		String numbers = "";
-		int numberOfLines = textArea.getLineCount() + 1;
+		int numberOfLines = textArea.getLineCount();
 		
 		for (int i = 1; i <= numberOfLines; i++)
 			numbers += i + "\n";

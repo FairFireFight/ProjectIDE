@@ -8,4 +8,5 @@ public final class ProjectConstants {
 	
 	public static Font TEXT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
 	public final static Font GENERAL_FONT = new Font("Arial", Font.PLAIN, 14);
+	public final static Font CONSOLE_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 18);
 }

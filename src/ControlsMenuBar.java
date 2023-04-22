@@ -10,6 +10,7 @@ public class ControlsMenuBar extends JMenuBar {
 	//file menu
 	public static JMenu fileMenu;
 	public static JMenuItem saveButton;
+	public static JMenuItem saveAllButton;
 	public static JMenuItem loadButton;
 	
 	//file menu -> new menu
@@ -25,17 +26,14 @@ public class ControlsMenuBar extends JMenuBar {
 		
 		fileMenu = new JMenu(" File ");
 		saveButton = new JMenuItem("Save");
+		saveButton.addActionListener(e -> WorkAreaTabs.saveSelectedTab());
+		
+		saveAllButton = new JMenuItem("Save all");
+		saveAllButton.addActionListener(e -> SplitPaneApp.workAreaTabs.saveAllTabs());
+		
 		loadButton = new JMenuItem("Load");
 		exitButton = new JMenuItem("Exit");
-		
-		//TODO make an actual save handler class
-		saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Save functionality has not been added yet");
-            }
-        });	
-		
+
 		loadButton.addActionListener(new LoadProjectHandler());
 		//exit handler
 		exitButton.addActionListener(new ActionListener() {
@@ -67,12 +65,13 @@ public class ControlsMenuBar extends JMenuBar {
 		
 		//file additions
 		fileMenu.add(saveButton);
+		fileMenu.add(saveAllButton);
 		fileMenu.add(loadButton);
 		fileMenu.addSeparator();
 		fileMenu.add(newMenu);
 		fileMenu.addSeparator();
 		fileMenu.add(exitButton);
-		
+
 		this.add(fileMenu);
 		this.setBackground(ProjectConstants.CONSOLE_COLOR);
 	}

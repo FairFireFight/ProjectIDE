@@ -11,8 +11,10 @@ import javax.swing.JOptionPane;
 
 public class ConfigurationManager {	
 	public static File openDirectory;
-	
+	public static Path mainFunctionClass;
+
 	public static String documentsFolderPath = System.getProperty("user.home") +"\\Documents";
+
 	
 	private static Path configFilePath = Paths.get(documentsFolderPath + "\\ArabBeans\\config.cfg");
 	private static File configFile = configFilePath.toFile();

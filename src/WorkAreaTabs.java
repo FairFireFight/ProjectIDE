@@ -1,5 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -47,19 +45,13 @@ public class WorkAreaTabs extends JTabbedPane{
 		});
 		
 		saveButton = new JMenuItem("Save");
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				NumberedTextArea openTextArea = openTabs.get(selectedIndex);
-				
-				openTextArea.saveText();
-			}
-		});
+		saveButton.addActionListener(e -> saveSelectedTab());
 		
-		// TODO close functionality
 		closeButton = new JMenuItem("Close");
+		closeButton.addActionListener(e -> closeSelectedTab());
 		
 		closeAllButton = new JMenuItem("Close All");
+		closeAllButton.addActionListener(e -> closeAllTabs());
 		
 		menu = new JPopupMenu();
 		menu.add(saveButton);
@@ -69,9 +61,17 @@ public class WorkAreaTabs extends JTabbedPane{
 	}
 	
 	public void openFile(File file) {
-		// ignore folders
-		if (file.isDirectory())
+		String filePath = file.toString();
+		String fileExtention = filePath.indexOf('.') != -1 ? filePath.substring(filePath.indexOf('.')) : "directory";
+		
+		// ignore folders and bin files
+		if (file.isDirectory() || (
+			!fileExtention.equals(".txt") &&
+			!fileExtention.equals(".java"))
+			) {
+			System.out.println("Can't open \"" + fileExtention + "\" files for saftey reasons");
 			return;
+		}
 		
 		// if tab is already open, switch to it
 		int openIndex = findFileInTabs(file.toPath());		
@@ -102,6 +102,24 @@ public class WorkAreaTabs extends JTabbedPane{
 		}
 	}
 	
+	public void closeSelectedTab() {
+		this.remove(selectedIndex);
+		openTabs.remove(selectedIndex);
+	}
+	
+	public void closeAllTabs() {
+		int size = openTabs.size();
+		for (int i = 0; i < size; i++) {
+			this.remove(0);
+			openTabs.remove(0);
+		}
+	}
+
+	public static void saveSelectedTab() {
+		NumberedTextArea openTextArea = openTabs.get(selectedIndex);
+		openTextArea.saveText();
+	}
+
 	/**
 	 *  Checks if the file to open is already opened in a tab
 	 * @param path File to find in open tabs
@@ -116,10 +134,19 @@ public class WorkAreaTabs extends JTabbedPane{
 		return -1;
 	}
 	
+	private void markAllSaved() {
+		for (int i = 0; i < openTabs.size(); i++) {
+			String originalTitle = this.getTitleAt(i);
+			
+			if (originalTitle.indexOf("*") != -1)
+				this.setTitleAt(i, originalTitle.substring(1));
+		}
+	}
+	
 	public void setUnsavedChangesMark(boolean set) {
 		//NumberedTextArea n = openTabs.get(selectedIndex);
 		String originalTitle = this.getTitleAt(selectedIndex);
-		
+
 		if (set) { //add marker
 			if (originalTitle.indexOf("*") == -1)
 				this.setTitleAt(selectedIndex, "*" + originalTitle);
@@ -127,6 +154,13 @@ public class WorkAreaTabs extends JTabbedPane{
 		else { // remove marker
 			if (originalTitle.indexOf("*") != -1)
 				this.setTitleAt(selectedIndex, originalTitle.substring(1));
+		}
+	}
+
+	public void saveAllTabs() {
+		for (NumberedTextArea n : openTabs) {
+			n.saveText();
+			markAllSaved();
 		}
 	}
 }

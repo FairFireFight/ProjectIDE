@@ -17,13 +17,14 @@ public class SplitPaneApp extends JFrame {
 	
 	public JScrollPane workArea;
 	public JPanel hierarchy ;
-	public JPanel console;
 	
 	//containers
 	public JPanel appPanel;
 	
 	//user extended elements
 	public static WorkAreaTabs workAreaTabs;
+	
+	public static Console console;
 	
 	public SplitPaneApp() {
 		super("Arab[B]eans IDE");
@@ -46,7 +47,7 @@ public class SplitPaneApp extends JFrame {
 		workArea.getHorizontalScrollBar().setUnitIncrement(12);
 		
 		//setting up console
-		console = new JPanel();
+		console = new Console();
 		console.setBackground(ProjectConstants.CONSOLE_COLOR);
 		
 		InitializeVerticalSplit(workArea, console);
